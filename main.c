@@ -119,6 +119,8 @@ int main()
         // printf("%d ", vet[i]);
     }
 
+    int best_tam = 0;
+    int lowest_com = INT_MAX;
     for (int j = 1; j <= 200; j++)
     {
         num_comparacoes = 0;
@@ -138,6 +140,12 @@ int main()
         //     printf("%d ", vet[i]);
         // }
         printf("Tamanho do sub-vetor: %d \t-\t Numero de comparacoes: %d\n", TAM_MAX_ARRAY, num_comparacoes);
+        if (num_comparacoes < lowest_com)
+        {
+            lowest_com = num_comparacoes;
+            best_tam = TAM_MAX_ARRAY;
+        }
     }
+    printf("\nMelhor tamanho de sub-vetor: %d \t-\t Numero de comparacoes: %d\n", best_tam, lowest_com);
     return 0;
 }
