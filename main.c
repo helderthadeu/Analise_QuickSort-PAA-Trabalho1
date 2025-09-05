@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h> // srand, rand
 #include <time.h>   // time
+#include "utils.c"
 
-#define TAM_ARRAY 10000
-// #define TAM_MAX_ARRAY 50
 int TAM_MAX_ARRAY = 50;
 int num_comparacoes = 0;
 
@@ -74,7 +73,21 @@ int particiona(int vet[], int inicio, int fim)
 int particiona_random(int vet[], int inicio, int fim)
 {
     // seleciona um número entre fim (inclusive) e inicio (inclusive)
-    int pivo_indice = (rand() % (fim - inicio + 1)) + inicio;
+    int medio = (inicio + fim) / 2;
+    int pivo_indice = 0;
+
+    if (vet[inicio] <= vet[medio] && vet[inicio] >= vet[fim] || vet[inicio] >= vet[medio] && vet[inicio] <= vet[fim])
+    {
+        pivo_indice = inicio;
+    }
+    else if (vet[medio] <= vet[inicio] && vet[medio] >= vet[fim] || vet[medio] >= vet[inicio] && vet[medio] <= vet[fim])
+    {
+        pivo_indice = medio;
+    }
+    else
+    {
+        pivo_indice = fim;
+    }
 
     // faz a troca para colocar o pivô no fim
     troca(vet, pivo_indice, fim);
@@ -103,49 +116,120 @@ void quick_sort(int vet[], int inicio, int fim)
     num_comparacoes++;
 }
 
-int main()
+int *open_file_and_read_array(const char *filename, int size)
 {
-    // inicializa random seed
-    srand(time(NULL));
-
-    // vetor que será ordenado
-    int vet[TAM_ARRAY];
-
-    printf("Vetor original: \n");
-    for (int i = 0; i < TAM_ARRAY; i++)
+    FILE *file = fopen(filename, "r");
+    int *array = (int *)malloc(size * sizeof(int));
+    for (int i = 0; i < size; i++)
     {
-        num_comparacoes++;
-        vet[i] = rand() % 100;
-        // printf("%d ", vet[i]);
+        fscanf(file, "%d", &array[i]);
     }
+    fclose(file);
+    return array;
+}
 
+int *get_best_tam_array(int vet[], int tam_vet)
+{
     int best_tam = 0;
     int lowest_com = INT_MAX;
+    int *best_results = (int *)malloc(2 * sizeof(int));
+
     for (int j = 1; j <= 200; j++)
     {
         num_comparacoes = 0;
         TAM_MAX_ARRAY = j;
 
-        // printf("\nVetor ordenado: \n");
-
-        // int vet[] = {25, 40, 55, 20, 44, 35, 38, 99, 10, 65, 50};
-        int tam_vet = sizeof(vet) / sizeof(int);
-        int i;
-
         // chamada do quicksort
         quick_sort(vet, 0, tam_vet - 1);
 
-        // for (i = 0; i < tam_vet; i++)
-        // {
-        //     printf("%d ", vet[i]);
-        // }
-        printf("Tamanho do sub-vetor: %d \t-\t Numero de comparacoes: %d\n", TAM_MAX_ARRAY, num_comparacoes);
+        // printf("Tamanho do sub-vetor: %d \t-\t Numero de comparacoes: %d\n", TAM_MAX_ARRAY, num_comparacoes);
         if (num_comparacoes < lowest_com)
         {
             lowest_com = num_comparacoes;
             best_tam = TAM_MAX_ARRAY;
         }
     }
-    printf("\nMelhor tamanho de sub-vetor: %d \t-\t Numero de comparacoes: %d\n", best_tam, lowest_com);
+    best_results[0] = best_tam;
+    best_results[1] = lowest_com;
+
+    return best_results;
+}
+
+int get_average_result(int vet[], int tam_vet, int TAM_MAX_ARRAY, int num_executions)
+{
+    int best_tam = 0;
+    int lowest_com = INT_MAX;
+
+    for (int i = 0; i < num_executions; i++)
+    {
+        num_comparacoes = 0;
+
+        // chamada do quicksort
+        quick_sort(vet, 0, tam_vet - 1);
+
+        // printf("Tamanho do sub-vetor: %d \t-\t Numero de comparacoes: %d\n", TAM_MAX_ARRAY, num_comparacoes);
+        if (num_comparacoes < lowest_com)
+        {
+            lowest_com = num_comparacoes;
+            best_tam = TAM_MAX_ARRAY;
+        }
+    }
+
+    return num_comparacoes / num_executions;
+}
+
+int main()
+{
+    generate_tests_mass(10000);
+
+    int TAM_ARRAY = 0;
+    FILE *file;
+
+    file = fopen("tests\\size_test_mass.txt", "r");
+    if (file == NULL)
+    {
+        printf("Erro ao abrir o arquivo.\n");
+        return 1;
+    }
+
+    fscanf(file, "%d", &TAM_ARRAY);
+
+    fclose(file);
+
+    int *random_vet = open_file_and_read_array("tests\\random_test_mass.txt", TAM_ARRAY);
+    int *repeated_vet = open_file_and_read_array("tests\\repeated_test_mass.txt", TAM_ARRAY);
+    int *reversed_vet = open_file_and_read_array("tests\\reversed_test_mass.txt", TAM_ARRAY);
+    int *sorted_vet = open_file_and_read_array("tests\\sorted_test_mass.txt", TAM_ARRAY);
+
+    // printf("random_vet: %d\n", random_vet[0]);
+
+    int *best_results = get_best_tam_array(random_vet, TAM_ARRAY);
+    int best_tam = best_results[0];
+    printf("\nMelhor tamanho de sub-vetor aleatorio: %d\n", best_tam);
+    int lowest_comp = get_average_result(random_vet, TAM_ARRAY, best_tam, 100);
+    int lowest_com = lowest_comp;
+    printf("\nMenor numero de comparacoes para o vetor aleatorio: %d\n\n", lowest_com);
+
+    int *best_results_repeated = get_best_tam_array(repeated_vet, TAM_ARRAY);
+    best_tam = best_results_repeated[0];
+    printf("Melhor tamanho de sub-vetor repetido: %d\n", best_tam);
+    int lowest_comp_repeated = get_average_result(repeated_vet, TAM_ARRAY, best_tam, 100);
+    lowest_com = lowest_comp_repeated;
+    printf("Menor numero de comparacoes para o vetor repetido: %d\n\n", lowest_com);
+
+    int *best_results_reversed = get_best_tam_array(reversed_vet, TAM_ARRAY);
+    best_tam = best_results_reversed[0];
+    printf("Melhor tamanho de sub-vetor reverso: %d\n", best_tam);
+    int lowest_comp_reversed = get_average_result(reversed_vet, TAM_ARRAY, best_tam, 100);
+    lowest_com = lowest_comp_reversed;
+    printf("Menor numero de comparacoes para o vetor reverso: %d\n\n", lowest_com);
+
+    int *best_results_sorted = get_best_tam_array(sorted_vet, TAM_ARRAY);
+    best_tam = best_results_sorted[0];
+    printf("Melhor tamanho de sub-vetor ordenado: %d\n", best_tam);
+    int lowest_comp_sorted = get_average_result(sorted_vet, TAM_ARRAY, best_tam, 100);
+    lowest_com = lowest_comp_sorted;
+    printf("Menor numero de comparacoes para o vetor ordenado: %d\n\n", lowest_com);
+
     return 0;
 }
