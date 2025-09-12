@@ -200,6 +200,7 @@ int main()
     int *repeated_vet = open_file_and_read_array("tests\\repeated_test_mass.txt", TAM_ARRAY);
     int *reversed_vet = open_file_and_read_array("tests\\reversed_test_mass.txt", TAM_ARRAY);
     int *sorted_vet = open_file_and_read_array("tests\\sorted_test_mass.txt", TAM_ARRAY);
+    int *worst_case_vet = open_file_and_read_array("tests\\worst_case_test_mass.txt", TAM_ARRAY);
 
     // printf("random_vet: %d\n", random_vet[0]);
 
@@ -230,6 +231,13 @@ int main()
     int lowest_comp_sorted = get_average_result(sorted_vet, TAM_ARRAY, best_tam, 100);
     lowest_com = lowest_comp_sorted;
     printf("Menor numero de comparacoes para o vetor ordenado: %d\n\n", lowest_com);
+
+    int *best_results_worst_case = get_best_tam_array(worst_case_vet, TAM_ARRAY);
+    best_tam = best_results_worst_case[0];
+    printf("Melhor tamanho de sub-vetor pior caso: %d\n", best_tam);
+    int lowest_comp_worst_case = get_average_result(worst_case_vet, TAM_ARRAY, best_tam, 100);
+    lowest_com = lowest_comp_worst_case;
+    printf("Menor numero de comparacoes para o vetor pior caso: %d\n\n", lowest_com);
 
     return 0;
 }

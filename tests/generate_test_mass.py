@@ -8,7 +8,6 @@ def generate_test_mass(n = 10, lower_bound=1, upper_bound=100):
 if __name__ == "__main__":
     test_mass = generate_test_mass(500, 0, 100)
     
-    
     with open("tests\\size_test_mass.txt", "w") as file:
         file.write(len(test_mass).__str__())
         
@@ -28,6 +27,10 @@ if __name__ == "__main__":
         print(repeated_mass)
         file.write("\n".join(map(str, repeated_mass)))
         
-        
+    with open("tests\\worst_case_test_mass.txt", "w") as file:
+        worst_case_mass = lista = [10] * 500
+        print(worst_case_mass)
+        file.write("\n".join(map(str, worst_case_mass)))
+
     print("Test mass generated and saved to test_mass.txt")
     print(test_mass)
