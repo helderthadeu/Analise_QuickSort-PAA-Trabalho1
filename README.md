@@ -5,13 +5,13 @@ Grupo: Helder Thadeu, Gabriel Vieira e Enzo Rodrigues
 
 Este projeto implementa uma análise do algoritmo QuickSort, avaliando seu desempenho em diferentes tipos de arrays de entrada. O objetivo é medir:
 
-O número de comparações realizadas pelo QuickSort.
+* O número de comparações realizadas pelo QuickSort.
 
-O tempo de execução.
+* O tempo de execução.
 
-O comportamento do algoritmo em arrays aleatórios, ordenados, inversamente ordenados e com repetições.
+* O comportamento do algoritmo em arrays aleatórios, ordenados, inversamente ordenados e com repetições.
 
-O código gera automaticamente arrays de teste e salva os resultados em arquivos para posterior análise.
+* O código gera automaticamente arrays de teste e salva os resultados em arquivos para posterior análise.
 
 # Estrutura do Projeto
 1. main.c               # Programa principal
@@ -36,30 +36,32 @@ O código gera automaticamente arrays de teste e salva os resultados em arquivos
 
 Geração de arrays de teste
 
-Aleatórios: valores entre LOWER_BOUND e UPPER_BOUND.
+* Aleatórios: valores entre LOWER_BOUND e UPPER_BOUND.
 
-Ordenados: crescente e decrescente.
+* Ordenados: crescente e decrescente.
 
-Com repetições: sub-arrays gerados aleatoriamente.
+* Com repetições: sub-arrays gerados aleatoriamente.
 
 Medida de desempenho
 
-Número de comparações do QuickSort.
+* Número de comparações do QuickSort.
 
-Tempo de execução em segundos usando clock() da biblioteca <time.h>.
+* Tempo de execução em segundos usando clock() da biblioteca <time.h>.
 
 Saída organizada em arquivos
 
-Cada tipo de array é salvo em um arquivo separado na pasta tests/.
+* Cada tipo de array é salvo em um arquivo separado na pasta tests/.
 
 # Como Compilar e Executar
 Usando GCC no terminal:
+```sh
 gcc main.c utils.c -o main.exe
 ./main.exe
+```
 
 Usando VS Code
 
-Configure o launch.json com "externalConsole": true para ver a saída no console.
+Configure o launch.json com ```"externalConsole": true ``` para ver a saída no console.
 
 Execute com F5 (debug) ou Ctrl+F5 (rodar sem debug).
 
@@ -68,14 +70,14 @@ Dica: o programa espera uma entrada final (getchar() ou system("pause")) para qu
 # Saída do Programa
 
 Exemplo de saída:
-
+```sh
 Melhor tamanho de sub-vetor aleatorio: 50
 Menor numero de comparacoes para o vetor aleatorio: 2345
 Tempo(s): 0.123456
-
+```
 Os arquivos na pasta tests/ contêm os arrays utilizados e podem ser utilizados para análises adicionais.
 
-Observações
+# Observações:
 
 O código está preparado para ajustar facilmente o tamanho do array de teste (TAM_ARRAY) e o número de execuções (N_EXECUTIONS) para avaliação estatística.
 
