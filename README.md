@@ -14,17 +14,15 @@ O comportamento do algoritmo em arrays aleatórios, ordenados, inversamente orde
 O código gera automaticamente arrays de teste e salva os resultados em arquivos para posterior análise.
 
 # Estrutura do Projeto
-/project-root
-│
-├─ main.c               # Programa principal
-├─ utils.c              # Funções auxiliares (geração de arrays, escrita de arquivos, etc.)
-├─ tests/               # Pasta onde os arquivos de teste e resultados são salvos
-│   ├─ random_test_mass.txt
-│   ├─ sorted_test_mass.txt
-│   ├─ reversed_test_mass.txt
-│   ├─ repeated_test_mass.txt
-│   └─ size_test_mass.txt
-└─ README.md
+main.c               # Programa principal
+utils.c              # Funções auxiliares (geração de arrays, escrita de arquivos, etc.)
+tests/               # Pasta onde os arquivos de teste e resultados são salvos
+    random_test_mass.txt
+    sorted_test_mass.txt
+    reversed_test_mass.txt
+    repeated_test_mass.txt
+    size_test_mass.txt
+README.md
 
 # Funcionalidades
 
