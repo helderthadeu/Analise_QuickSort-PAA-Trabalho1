@@ -3,6 +3,8 @@
 #include <time.h>   // time
 #include "utils.c"
 
+#define INT_MAX 2147483647
+
 int TAM_MAX_ARRAY = 50;
 int num_comparacoes = 0;
 
@@ -180,6 +182,9 @@ int get_average_result(int vet[], int tam_vet, int TAM_MAX_ARRAY, int num_execut
 
 int main()
 {
+    clock_t inicio, fim;
+    double tempo_gasto;
+
     generate_tests_mass(10000);
 
     int TAM_ARRAY = 0;
@@ -203,41 +208,57 @@ int main()
     int *worst_case_vet = open_file_and_read_array("tests\\worst_case_test_mass.txt", TAM_ARRAY);
 
     // printf("random_vet: %d\n", random_vet[0]);
-
     int *best_results = get_best_tam_array(random_vet, TAM_ARRAY);
     int best_tam = best_results[0];
     printf("\nMelhor tamanho de sub-vetor aleatorio: %d\n", best_tam);
+    inicio = clock();
     int lowest_comp = get_average_result(random_vet, TAM_ARRAY, best_tam, 100);
+    fim = clock();
     int lowest_com = lowest_comp;
-    printf("\nMenor numero de comparacoes para o vetor aleatorio: %d\n\n", lowest_com);
+    printf("Menor numero de comparacoes para o vetor aleatorio: %d\n", lowest_com);
+    printf("Tempo(s): %f \n\n",(double)(fim - inicio)/CLOCKS_PER_SEC);
 
     int *best_results_repeated = get_best_tam_array(repeated_vet, TAM_ARRAY);
     best_tam = best_results_repeated[0];
     printf("Melhor tamanho de sub-vetor repetido: %d\n", best_tam);
+    inicio = clock();
     int lowest_comp_repeated = get_average_result(repeated_vet, TAM_ARRAY, best_tam, 100);
+    fim = clock();
     lowest_com = lowest_comp_repeated;
-    printf("Menor numero de comparacoes para o vetor repetido: %d\n\n", lowest_com);
+    printf("Menor numero de comparacoes para o vetor repetido: %d\n", lowest_com);
+    printf("Tempo(s): %f \n\n",(double)(fim - inicio)/CLOCKS_PER_SEC);
 
     int *best_results_reversed = get_best_tam_array(reversed_vet, TAM_ARRAY);
     best_tam = best_results_reversed[0];
     printf("Melhor tamanho de sub-vetor reverso: %d\n", best_tam);
+    inicio = clock();
     int lowest_comp_reversed = get_average_result(reversed_vet, TAM_ARRAY, best_tam, 100);
+    fim = clock();
     lowest_com = lowest_comp_reversed;
-    printf("Menor numero de comparacoes para o vetor reverso: %d\n\n", lowest_com);
+    printf("Menor numero de comparacoes para o vetor reverso: %d\n", lowest_com);
+    printf("Tempo(s): %f \n\n",(double)(fim - inicio)/CLOCKS_PER_SEC);
 
     int *best_results_sorted = get_best_tam_array(sorted_vet, TAM_ARRAY);
     best_tam = best_results_sorted[0];
     printf("Melhor tamanho de sub-vetor ordenado: %d\n", best_tam);
+    inicio = clock();
     int lowest_comp_sorted = get_average_result(sorted_vet, TAM_ARRAY, best_tam, 100);
+    fim = clock();
     lowest_com = lowest_comp_sorted;
-    printf("Menor numero de comparacoes para o vetor ordenado: %d\n\n", lowest_com);
+    printf("Menor numero de comparacoes para o vetor ordenado: %d\n", lowest_com);
+    printf("Tempo(s): %f \n\n",(double)(fim - inicio)/CLOCKS_PER_SEC);
 
     int *best_results_worst_case = get_best_tam_array(worst_case_vet, TAM_ARRAY);
     best_tam = best_results_worst_case[0];
     printf("Melhor tamanho de sub-vetor pior caso: %d\n", best_tam);
+    inicio = clock();
     int lowest_comp_worst_case = get_average_result(worst_case_vet, TAM_ARRAY, best_tam, 100);
+    fim = clock();
     lowest_com = lowest_comp_worst_case;
-    printf("Menor numero de comparacoes para o vetor pior caso: %d\n\n", lowest_com);
+    printf("Menor numero de comparacoes para o vetor pior caso: %d\n", lowest_com);
+    printf("Tempo(s): %f \n\n",(double)(fim - inicio)/CLOCKS_PER_SEC);
 
+    printf("\nPressione ENTER para sair...");
+    getchar(); 
     return 0;
 }
