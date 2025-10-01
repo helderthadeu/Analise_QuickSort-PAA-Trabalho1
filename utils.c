@@ -10,7 +10,7 @@
  * @param upper_bound O limite superior (inclusivo).
  * @return Um ponteiro para o array alocado dinamicamente, ou NULL em caso de falha.
  */
-int* generate_test_mass(int n, int lower_bound, int upper_bound) {
+int* generate_tests(int n, int lower_bound, int upper_bound) {
     int* mass = (int*)malloc(n * sizeof(int));
     if (mass == NULL) {
         perror("Falha ao alocar memória para o array de teste");
@@ -83,7 +83,7 @@ int generate_tests_mass(const int N) {
     const int LOWER_BOUND = 0;
     const int UPPER_BOUND = 100;
 
-    int* test_mass = generate_test_mass(N, LOWER_BOUND, UPPER_BOUND);
+    int* test_mass = generate_tests(N, LOWER_BOUND, UPPER_BOUND);
     if (test_mass == NULL) {
         return 1; // Encerra se a alocação de memória falhou
     }
