@@ -75,6 +75,29 @@ int write_mass_to_file(const char* filepath, const int* mass, int size) {
 //     printf("]\n");
 // }
 
+/**
+ * @brief Constrói um array que gera pior caso até mesmo para QuickSort com pivô aleatório.
+ * Implementação baseada no método "anti-quicksort" descrito por Sedgewick e Bentley.
+ */
+void build_antiquicksort_array(int *arr, int n) {
+    int *pos = (int*)malloc(n * sizeof(int));
+    if (!pos) {
+        perror("Falha ao alocar memória em build_antiquicksort_array");
+        return;
+    }
+
+    for (int i = 0; i < n; i++) pos[i] = i;
+    int m = 0;
+    for (int x = 0; x < n; x++) {
+        int j = m;
+        if (j > 0 && rand() % 2) j--;
+        arr[pos[j]] = x + 1;
+        pos[j] = pos[m];
+        m++;
+    }
+    free(pos);
+}
+
 
 int generate_tests_mass(const int N) {
     // Inicializa o gerador de números aleatórios
@@ -131,12 +154,22 @@ int generate_tests_mass(const int N) {
         intermediate_mass[i] = test_mass[rand() % N];
     }
     
-    int repeated_mass[REPEATED_SIZE];
-    for (int i = 0; i < REPEATED_SIZE; i++) {
+    int repeated_mass[N];
+    for (int i = 0; i < N; i++) {
         repeated_mass[i] = intermediate_mass[rand() % REPEATED_SIZE];
     }
     // print_mass("Massa Repetida:", repeated_mass, REPEATED_SIZE);
-    write_mass_to_file("tests/repeated_test_mass.txt", repeated_mass, REPEATED_SIZE);
+    write_mass_to_file("tests/repeated_test_mass.txt", repeated_mass, N);
+
+        // --- Salvar massa de pior caso "anti-quicksort" ---
+    int* anti_mass = (int*)malloc(N * sizeof(int));
+    if (anti_mass == NULL) {
+        perror("Falha ao alocar memória para worst_case");
+    } else {
+        build_antiquicksort_array(anti_mass, N);
+        write_mass_to_file("tests/worst_case_test_mass.txt", anti_mass, N);
+    }
+
 
     printf("\nMassas de teste geradas e salvas na pasta 'tests'.\n");
     // print_mass("Massa Original:", test_mass, N);
@@ -145,6 +178,7 @@ int generate_tests_mass(const int N) {
     free(test_mass);
     free(sorted_mass);
     free(reversed_mass);
+    free(anti_mass);
 
     return 0;
 }

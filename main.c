@@ -157,7 +157,7 @@ int *get_best_tam_array(int vet[], int tam_vet, bool hibrid, bool improved)
     int lowest_com = INT_MAX;
     int *best_results = (int *)malloc(2 * sizeof(int));
 
-    for (int j = 1; j <= 200; j++)
+    for (int j = 1; j <= 400; j++)
     {
         num_comparacoes = 0;
         TAM_MAX_ARRAY = j;
@@ -217,7 +217,7 @@ int main()
     int TAM_ARRAY = 0;
     FILE *file;
 
-    file = fopen("tests\\size_test_mass.txt", "r");
+    file = fopen("tests/size_test_mass.txt", "r");
     if (file == NULL)
     {
         printf("Erro ao abrir o arquivo.\n");
@@ -228,11 +228,11 @@ int main()
 
     fclose(file);
 
-    int *random_vet = open_file_and_read_array("tests\\random_test_mass.txt", TAM_ARRAY);
-    int *repeated_vet = open_file_and_read_array("tests\\repeated_test_mass.txt", TAM_ARRAY);
-    int *reversed_vet = open_file_and_read_array("tests\\reversed_test_mass.txt", TAM_ARRAY);
-    int *sorted_vet = open_file_and_read_array("tests\\sorted_test_mass.txt", TAM_ARRAY);
-    int *worst_case_vet = open_file_and_read_array("tests\\worst_case_test_mass.txt", TAM_ARRAY);
+    int *random_vet = open_file_and_read_array("tests/random_test_mass.txt", TAM_ARRAY);
+    int *repeated_vet = open_file_and_read_array("tests/repeated_test_mass.txt", TAM_ARRAY);
+    int *reversed_vet = open_file_and_read_array("tests/reversed_test_mass.txt", TAM_ARRAY);
+    int *sorted_vet = open_file_and_read_array("tests/sorted_test_mass.txt", TAM_ARRAY);
+    int *worst_case_vet = open_file_and_read_array("tests/worst_case_test_mass.txt", TAM_ARRAY);
 
     // printf("random_vet: %d\n", random_vet[0]);
 
