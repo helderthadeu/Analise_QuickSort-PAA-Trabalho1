@@ -79,22 +79,19 @@ int write_mass_to_file(const char* filepath, const int* mass, int size) {
  * @brief Constrói um array que gera pior caso até mesmo para QuickSort com pivô aleatório.
  * Implementação baseada no método "anti-quicksort" descrito por Sedgewick e Bentley.
  */
-void build_antiquicksort_array(int *arr, int n) {
+void build_worst_case_array(int *arr, int n) {
     int *pos = (int*)malloc(n * sizeof(int));
     if (!pos) {
-        perror("Falha ao alocar memória em build_antiquicksort_array");
+        perror("Falha ao alocar memória em build_worst_case_array");
         return;
     }
 
-    for (int i = 0; i < n; i++) pos[i] = i;
-    int m = 0;
-    for (int x = 0; x < n; x++) {
-        int j = m;
-        if (j > 0 && rand() % 2) j--;
-        arr[pos[j]] = x + 1;
-        pos[j] = pos[m];
-        m++;
+    int random = rand() % n;
+
+    for (int i = 0; i < n; i++) {
+        arr[i] = random;
     }
+    
     free(pos);
 }
 
@@ -166,7 +163,7 @@ int generate_tests_mass(const int N) {
     if (anti_mass == NULL) {
         perror("Falha ao alocar memória para worst_case");
     } else {
-        build_antiquicksort_array(anti_mass, N);
+        build_worst_case_array(anti_mass, N);
         write_mass_to_file("tests/worst_case_test_mass.txt", anti_mass, N);
     }
 
